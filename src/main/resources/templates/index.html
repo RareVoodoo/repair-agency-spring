@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>user</title>
+</head>
+<body>
+ <h1>You are user</h1>
+ <h1 th:text="#{greeting}"></h1>
+
+ <form th:action="@{/logout}" method="post">
+     <input type="submit" value="Sign Out"/>
+ </form>
+
+ <div>
+     <button id="locale_en" value="en" th:text="#{lang.eng}"></button>
+     <button id="locale_ua" value="ua" th:text="#{lang.ua}"></button>
+ </div>
+
+</body>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js">
+</script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#locale_en").click(function () {
+            var selectedOption = $('#locale_en').val();
+            if(selectedOption !=""){
+                window.location.replace('?lang=' + selectedOption)
+            }
+        })
+        $("#locale_ua").click(function () {
+            var selectedOption = $('#locale_ua').val();
+            if(selectedOption !=""){
+                window.location.replace('?lang=' + selectedOption)
+            }
+        })
+
+    });
+</script>
+
+
+</html>

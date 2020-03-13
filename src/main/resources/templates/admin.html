@@ -1,0 +1,48 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
+<head>
+    <title>admin</title>
+    <meta charset="UTF-8">
+    <title>Admin</title>
+</head>
+<body>
+<h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
+<div>
+    You are admin
+</div>
+
+<table>
+    <tr>
+        <th>username</th>
+        <th>enabled</th>
+    </tr>
+    <tr th:each="user: ${users}">
+        <td th:text="${user.username}"></td>
+        <td th:text="${user.enabled}"></td>
+    </tr>
+
+</table>
+
+
+<table>
+    <tr>
+        <th>username</th>
+        <th>enabled</th>
+    </tr>
+    <tr th:each="auth: ${authorities}">
+        <td th:text="${auth.username}"></td>
+        <td th:text="${auth.authority}"></td>
+
+    </tr>
+
+</table>
+
+
+
+<br/>
+<form th:action="@{/logout}" method="post">
+    <input type="submit" value="Sign Out"/>
+</form>
+</body>
+</html>
