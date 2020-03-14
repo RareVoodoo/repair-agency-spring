@@ -3,8 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <title>Master's page</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 </head>
 <body>
-<h1 th:text="#{request.execute}"></h1>
+
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Username</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Accepted</th>
+                    <th scope="col">Performed</th>
+                    <th scope="col">Perform</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="req : ${request}">
+                    <th scope="row" th:text=${req.id}></th>
+                    <td th:text=${req.username}></td>
+                    <td th:text=${req.description}></td>
+                    <td th:text=${req.accepted}></td>
+                    <td th:text=${req.performed}></td>
+                    <td>
+                        <form th:action="@{/master/performRequest/{id}(id=${req.id})}" method="POST" enctype="multipart/form-data">
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-danger btn-sm text-white">Accept</button>
+                            </div>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+
+
 </body>
 </html>

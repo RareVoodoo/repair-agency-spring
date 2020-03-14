@@ -5,6 +5,8 @@
     <title>admin</title>
     <meta charset="UTF-8">
     <title>Admin</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
 </head>
 <body>
 <h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
@@ -22,21 +24,52 @@
         <td th:text="${user.enabled}"></td>
     </tr>
 
-</table>
-
-
-<table>
-    <tr>
-        <th>username</th>
-        <th>enabled</th>
-    </tr>
-    <tr th:each="auth: ${authorities}">
-        <td th:text="${auth.username}"></td>
-        <td th:text="${auth.authority}"></td>
-
-    </tr>
 
 </table>
+<section id="todocontainer">
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Username</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Accepted</th>
+                    <th scope="col">Performed</th>
+                    <th scope="col">Accept</th>
+                    <th scope="col">Delete</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="req : ${request}">
+                    <th scope="row" th:text=${req.id}></th>
+                    <td th:text=${req.username}></td>
+                    <td th:text=${req.description}></td>
+                    <td th:text=${req.accepted}></td>
+                    <td th:text=${req.performed}></td>
+                    <td>
+                        <form th:action="@{/admin/acceptRequest/{id}(id=${req.id})}" method="POST" enctype="multipart/form-data">
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-danger btn-sm text-white">Accept</button>
+                            </div>
+                        </form>
+                    </td>
+                    <td>
+                        <form th:action="@{/admin/delete/{id}(id=${req.id})}" method="POST" enctype="multipart/form-data">
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-danger btn-sm text-white">Delete</button>
+                            </div>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+    </section>
 
 
 

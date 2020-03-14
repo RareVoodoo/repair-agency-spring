@@ -1,6 +1,8 @@
 package ua.testing.repairagency.controller;
 
 
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,8 +20,12 @@ import ua.testing.repairagency.service.UserService;
 import javax.validation.Valid;
 
 
+
 @Controller
 public class RegistrationController {
+
+     Logger logger = LoggerFactory.getLogger(RegistrationController.class);
+
     @Autowired
     private UserService userService;
 
@@ -41,14 +47,14 @@ public class RegistrationController {
         if (!result.hasErrors()) {
             registered = userService.registerNewUserAccount(accountDto);
         }else{
-            System.out.println(result.getAllErrors());
+            logger.error(String.valueOf(result.getAllErrors()));
         }
 
         if (result.hasErrors()) {
             return new ModelAndView("registration", "user", accountDto);
         }
         else {
-            return new ModelAndView("successRegister", "user", accountDto);
+            return new ModelAndView("redirect:/login", "user", accountDto);
         }
 
     }

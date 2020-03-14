@@ -8,6 +8,17 @@
  <h1>You are user</h1>
  <h1 th:text="#{greeting}"></h1>
 
+ <h1 th:text="#{label.repair.request.create}"></h1>
+ <form action="/newRequest" th:object="${request}" method="post" enctype="utf8">
+     <div >
+     <label th:text="#{label.repair.request.description}"></label>
+         <input th:field="*{description}">
+     </div>
+     <button type="submit" th:text="#{label.form.submit}"></button>
+ </form>
+
+
+
  <form th:action="@{/logout}" method="post">
      <input type="submit" value="Sign Out"/>
  </form>
