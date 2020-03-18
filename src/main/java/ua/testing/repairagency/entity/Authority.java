@@ -17,17 +17,8 @@ public class Authority {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-
     private String username;
-
-
     private String authority;
 
-
-//
-//    @OneToOne(cascade = CascadeType.ALL, optional = false)
-//    @JoinColumn(name ="username",referencedColumnName = "username")
-//    private User user;
 
 }

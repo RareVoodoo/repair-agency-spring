@@ -14,7 +14,8 @@ insert into authorities (username, authority) values
 ('master', 'ROLE_MASTER');
 
 
-insert into request (username, description, accepted, performed) values
-('test_user','test description 1', false ,false),
-('test_user1','test description 2', false ,false),
-('test_user2','test description 3', false ,false);
+insert into request (username, description, accepted, performed, cancellation_reason, repair_price, user_comment) values
+('test_user','test description 1', false ,false,'not canceled',null,'no comment'),
+('test_user1','test description 2', false ,false,'not canceled',null,'no comment'),
+('test_user2','test description 3', false ,false,'not canceled',null,'no comment');
+

@@ -29,4 +29,14 @@ public class RepairRequest {
 
     @Column
     private boolean performed;
+
+    @Column
+    private String cancellationReason;
+
+    @Column
+    private Double repairPrice;
+
+    @Column
+    private String userComment;
+
 }

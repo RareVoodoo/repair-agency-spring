@@ -26,7 +26,9 @@ public class RepairRequestService {
         repairRequest.setDescription(repairRequestDTO.getDescription());
         repairRequest.setAccepted(false);
         repairRequest.setPerformed(false);
-
+        repairRequest.setCancellationReason("not canceled");
+        repairRequest.setUserComment("no comment");
+        repairRequest.setRepairPrice(0.0);
         return repairRequestRepository.save(repairRequest);
 
     }

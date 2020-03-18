@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotNull;
+
 
 
 @Data
@@ -22,4 +22,11 @@ public class RepairRequestDTO {
     private boolean accepted;
 
     private boolean performed;
+
+    private String cancellationReason;
+
+    private Double repairPrice;
+
+    private String userComment;
+
 }
