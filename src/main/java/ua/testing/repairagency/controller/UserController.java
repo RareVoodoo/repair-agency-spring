@@ -1,40 +1,65 @@
 package ua.testing.repairagency.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
+import ua.testing.repairagency.dto.RepairRequestDTO;
+import ua.testing.repairagency.entity.RepairRequest;
 import ua.testing.repairagency.entity.User;
 import ua.testing.repairagency.repository.AuthorityRepository;
 import ua.testing.repairagency.repository.RepairRequestRepository;
 import ua.testing.repairagency.repository.UserRepository;
 
+import javax.validation.Valid;
+
 
 @Controller
 public class UserController {
-    @Autowired
-    private UserRepository userRepository;
 
     @Autowired
     private RepairRequestRepository repairRequestRepository;
 
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private AuthorityRepository authorityRepository;
 
-    @GetMapping(path = "/all")
-    public @ResponseBody Iterable<User> getAllUsers(){
-        return userRepository.findAll();
-    }
-
     @GetMapping("/user")
     public String initializeRepairRequest(Model model){
-        model.addAttribute("request", repairRequestRepository.findAll());
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        RepairRequestDTO repairRequestDTO = new RepairRequestDTO();
+        model.addAttribute("request",repairRequestDTO);
+        model.addAttribute("requestRep",repairRequestRepository.
+                findByUsernameEqualsAndAcceptedTrueAndPerformedTrue(authentication.getName()));
         model.addAttribute("users",userRepository.findAll());
         model.addAttribute("authorities", authorityRepository.findAll());
         return "index";
+    }
+
+    @GetMapping("user/userComment/{id}")
+    public String redirectToUserCommentForm(@PathVariable("id") long id, Model model) {
+        RepairRequest repairRequest = repairRequestRepository.findById(id).get();
+        model.addAttribute("request", repairRequest);
+        return "userComment";
+    }
+
+
+    @PostMapping("/addComment/id={id}")
+    public String addUserComment(@PathVariable Long id,
+                                 Model model,
+                                 @ModelAttribute("requestRep") @Valid RepairRequestDTO repairDTO ){
+
+        RepairRequest request = repairRequestRepository.findById(id).get();
+        request.setUserComment(repairDTO.getUserComment());
+        repairRequestRepository.save(request);
+        model.addAttribute("requestRep", repairRequestRepository.findAll());
+        return "redirect:/user";
     }
 
 }

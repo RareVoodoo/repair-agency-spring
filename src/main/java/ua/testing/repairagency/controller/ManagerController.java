@@ -45,10 +45,17 @@ public class ManagerController {
     }
 
     @GetMapping("admin/accept/{id}")
-    public String showUpdateForm(@PathVariable("id") long id, Model model) {
+    public String redirectToAcceptForm(@PathVariable("id") long id, Model model) {
         RepairRequest repairRequest = repairRequestRepository.findById(id).get();
         model.addAttribute("request", repairRequest);
         return "adminAccept";
+    }
+
+    @GetMapping("admin/cancel/{id}")
+    public String redirectToCancelForm(@PathVariable("id") long id, Model model) {
+        RepairRequest repairRequest = repairRequestRepository.findById(id).get();
+        model.addAttribute("request", repairRequest);
+        return "adminCancel";
     }
 
 
@@ -68,10 +75,14 @@ public class ManagerController {
     }
 
 
-    @PostMapping("/admin/cancelRequest/id={id}")
-    public String cancelRequest(@PathVariable Long id, Model model){
+    @PostMapping("/cancelRequest/id={id}")
+    public String cancelRequest(@PathVariable Long id,Model model,@ModelAttribute("request") @Valid RepairRequestDTO repairDTO){
         RepairRequest request = repairRequestRepository.findById(id).get();
         request.setAccepted(false);
+        request.setPerformed(false);
+        request.setRepairPrice(0.0);
+        request.setCancellationReason(repairDTO.getCancellationReason());
+        logger.warn("Cancel message: " + repairDTO.getCancellationReason());
         repairRequestRepository.save(request);
         model.addAttribute("request", repairRequestRepository.findAll());
         return "redirect:/admin";

@@ -24,12 +24,13 @@
         <td th:text="${user.enabled}"></td>
     </tr>
 
-
 </table>
-<section id="todocontainer">
+
+
+<section>
     <div class="row">
         <div class="col-md-2"></div>
-        <div class="col-md-8">
+        <div class="col-md-10">
             <table class="table">
                 <thead>
                 <tr>
@@ -39,7 +40,9 @@
                     <th scope="col">Accepted</th>
                     <th scope="col">Performed</th>
                     <th scope="col">RepairPrice</th>
+                    <th scope="col">Cancellation Reason</th>
                     <th scope="col">Accept</th>
+                    <th scope="col">Cancel</th>
                     <th scope="col">Delete</th>
                 </tr>
                 </thead>
@@ -51,7 +54,9 @@
                     <td th:text="${req.accepted}"></td>
                     <td th:text="${req.performed}"></td>
                     <td th:text="${req.repairPrice}"></td>
+                    <td th:text="${req.cancellationReason}"></td>
                     <td> <a  th:href="@{/admin/accept/{id}(id=${req.id})}" class="btn btn-success btn-sm text-white">Accept</a></td>
+                    <td> <a  th:href="@{/admin/cancel/{id}(id=${req.id})}" class="btn btn-danger btn-sm text-white">Cancel</a></td>
                     <td>
                         <form th:action="@{/admin/delete/{id}(id=${req.id})}" method="POST" enctype="multipart/form-data">
                             <div class="form-group">
