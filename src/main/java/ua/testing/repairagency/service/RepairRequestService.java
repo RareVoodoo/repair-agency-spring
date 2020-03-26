@@ -5,11 +5,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ua.testing.repairagency.dto.RepairRequestDTO;
 import ua.testing.repairagency.entity.RepairRequest;
 import ua.testing.repairagency.repository.RepairRequestRepository;
 
+
 @Service
+@Transactional
 public class RepairRequestService {
 
     @Autowired

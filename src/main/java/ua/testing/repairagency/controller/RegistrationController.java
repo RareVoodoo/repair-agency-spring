@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import ua.testing.repairagency.dto.UserDTO;
 import ua.testing.repairagency.entity.User;
 import ua.testing.repairagency.service.UserService;
+import ua.testing.repairagency.validator.UserValidator;
 
 import javax.validation.Valid;
 
@@ -29,6 +30,9 @@ public class RegistrationController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private UserValidator userValidator;
+
     @GetMapping("/registration")
     public String showRegistrationForm(WebRequest request, Model model) {
         UserDTO userDto = new UserDTO();
@@ -36,27 +40,22 @@ public class RegistrationController {
         return "registration";
     }
 
-
     @PostMapping("/registration")
-    public ModelAndView registerUserAccount(
+    public String registerUserAccount(
             @ModelAttribute("user") @Valid UserDTO accountDto,
-            BindingResult result,
-            WebRequest request,
-            Errors errors) {
+            BindingResult result, Errors errors) {
+
+        userValidator.validate(accountDto,result);
+
         User registered = new User();
         if (!result.hasErrors()) {
             registered = userService.registerNewUserAccount(accountDto);
         }else{
             logger.error(String.valueOf(result.getAllErrors()));
+            return "registration";
         }
 
-        if (result.hasErrors()) {
-            return new ModelAndView("registration", "user", accountDto);
-        }
-        else {
-            return new ModelAndView("redirect:/login", "user", accountDto);
-        }
-
+        return "redirect:/login";
     }
 
 }

@@ -1,29 +1,52 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Registration</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css" integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX" crossorigin="anonymous">
+<!--    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">-->
 </head>
 
 <body>
-
-<h1 th:text="#{label.form.registration.title}">form</h1>
+<div class="container w-25 p-3">
 <form action="/registration" th:object="${user}" method="POST" enctype="utf8">
+    <h2 class="form-signin-heading" th:text="#{page.registration.title}"></h2>
     <div>
-        <label th:text="#{label.user.username}">last</label>
-        <input th:field="*{username}"/>
-        <p th:each="error : ${#fields.errors('username')}"
-           th:text="${error}">Validation error</p>
+        <label for="username" class="sr-only" th:text="#{page.form.username}"></label>
+        <input type="text" th:field="*{username}" id="username" name="username" class="form-control" th:placeholder="#{page.form.username}" required autofocus>
+    <p class="alert alert-danger" role="alert" th:each="error : ${#fields.errors('username')}"
+       th:text="${error}">Validation error</p>
     </div>
+    <br>
+
     <div>
-        <label th:text="#{label.user.password}">password</label>
-        <input type="password" th:field="*{password}"/>
-        <p th:each="error : ${#fields.errors('password')}"
-           th:text="${error}">Validation error</p>
+        <label for="password" class="sr-only" th:text="#{page.form.password}">Password</label>
+        <input type="password" th:field="*{password}" id="password" name="password" class="form-control" th:placeholder="#{page.form.password}" required>
+            <p class="alert alert-danger" role="alert" th:each="error : ${#fields.errors('password')}" th:text="${error}"></p>
+        <br>
     </div>
-    <button type="submit" th:text="#{label.form.submit}">submit</button>
-</form>
-<a th:href="@{/login.html}" th:text="#{label.form.loginLink}">login</a>
+
+    <div>
+        <label for="matchingPassword" class="sr-only"th:text="#{page.registration.form.confirm.password}">Password</label>
+        <input type="password" th:field="*{matchingPassword}" id="matchingPassword" name="matchingPassword" class="form-control" th:placeholder="#{page.registration.form.confirm.password}" required>
+        <p class="alert alert-danger" role="alert" th:each="error : ${#fields.errors('matchingPassword')}" th:text="${error}"></p>
+        <br>
+    </div>
+
+        <button class="btn btn-lg btn-primary btn-block" type="submit" th:text="#{page.registration.form.submit}"></button>
+
+
+
+        <span class="text-center" th:text="#{page.form.already.registered.title}"></span>
+        <span><a th:href="@{/login}" th:text="#{page.form.login}"></a></span>
+
+
+    </form>
+
+</div>
+
+
+
 </body>
 </html>

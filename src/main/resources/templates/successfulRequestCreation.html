@@ -1,10 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css" integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX" crossorigin="anonymous">
+
 </head>
 <body>
-    <h1>Successful Request Creation</h1>
+<div class="alert alert-success" role="alert">
+    <h4 class="alert-heading" th:text="#{page.success.request.creation}" ></h4>
+    <p th:text="#{page.success.request.message}"></p>
+    <hr>
+    <form th:action="@{/user}" method="get">
+        <button type="submit" class="btn btn-primary" th:text="#{label.button.return}">Cancel</button>
+    </form>
+</div>
 </body>
 </html>

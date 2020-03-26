@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import ua.testing.repairagency.dto.RepairRequestDTO;
+import ua.testing.repairagency.dto.UserDTO;
 import ua.testing.repairagency.entity.RepairRequest;
 import ua.testing.repairagency.entity.User;
 import ua.testing.repairagency.repository.AuthorityRepository;
@@ -29,6 +30,11 @@ public class UserController {
     @Autowired
     private AuthorityRepository authorityRepository;
 
+    @GetMapping("/")
+    public String goToStartPage(){
+        return "redirect:/registration";
+    }
+
     @GetMapping("/user")
     public String initializeRepairRequest(Model model){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -40,6 +46,13 @@ public class UserController {
         model.addAttribute("users",userRepository.findAll());
         model.addAttribute("authorities", authorityRepository.findAll());
         return "index";
+    }
+
+    @GetMapping("/login")
+    public String loginUser(Model model){
+        UserDTO userDto = new UserDTO();
+        model.addAttribute("user", userDto);
+        return "login";
     }
 
     @GetMapping("user/userComment/{id}")

@@ -4,6 +4,7 @@ import antlr.ASTNULLType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +22,7 @@ import javax.validation.Valid;
 public class ManagerController {
 
     Logger logger = LoggerFactory.getLogger(ManagerController.class);
+    private static final int DEFAULT_PAGE_SIZE = 3;
 
     @Autowired
     private UserRepository userRepository;
@@ -37,8 +39,9 @@ public class ManagerController {
 
 
     @GetMapping("/admin")
-    public String listManagerRepairRequests(Model model) {
-        model.addAttribute("request", repairRequestRepository.findAll());
+    public String listManagerRepairRequests(Model model, @RequestParam(defaultValue = "1") int page) {
+        model.addAttribute("request", repairRequestRepository.findAll(PageRequest.of(page,DEFAULT_PAGE_SIZE)));
+        model.addAttribute("currentPage",page);
         model.addAttribute("users",userRepository.findAll());
         model.addAttribute("authorities", authorityRepository.findAll());
         return "admin";

@@ -3,6 +3,7 @@ package ua.testing.repairagency.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ua.testing.repairagency.dto.UserDTO;
 import ua.testing.repairagency.entity.Authority;
 import ua.testing.repairagency.entity.User;
@@ -10,6 +11,7 @@ import ua.testing.repairagency.repository.AuthorityRepository;
 import ua.testing.repairagency.repository.UserRepository;
 
 @Service
+@Transactional
 public class UserService {
     @Autowired
     private UserRepository userRepository;

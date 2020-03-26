@@ -28,7 +28,7 @@ public class UserDetailsImp implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.getUserByUsername(username);
+        User user = userRepository.findByUsername(username);
         Authority authority = authorityRepository.getAuthorityByUsername(username);
         if(user == null){
             throw new UsernameNotFoundException("No user with login " + username);

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"
-      xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>admin</title>
     <meta charset="UTF-8">
@@ -9,23 +8,7 @@
 
 </head>
 <body>
-<h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
-<div>
-    You are admin
-</div>
-
-<table>
-    <tr>
-        <th>username</th>
-        <th>enabled</th>
-    </tr>
-    <tr th:each="user: ${users}">
-        <td th:text="${user.username}"></td>
-        <td th:text="${user.enabled}"></td>
-    </tr>
-
-</table>
-
+<!--<h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>-->
 
 <section>
     <div class="row">
@@ -35,15 +18,15 @@
                 <thead>
                 <tr>
                     <th scope="col">Id</th>
-                    <th scope="col">Username</th>
-                    <th scope="col">Description</th>
-                    <th scope="col">Accepted</th>
-                    <th scope="col">Performed</th>
-                    <th scope="col">RepairPrice</th>
-                    <th scope="col">Cancellation Reason</th>
-                    <th scope="col">Accept</th>
-                    <th scope="col">Cancel</th>
-                    <th scope="col">Delete</th>
+                    <th scope="col" th:text="#{label.user.username}">Username</th>
+                    <th scope="col" th:text="#{label.user.description}">Description</th>
+                    <th scope="col" th:text="#{label.user.accepted}">Accepted</th>
+                    <th scope="col" th:text="#{label.user.performed}">Performed</th>
+                    <th scope="col" th:text="#{label.user.repair.price}">RepairPrice</th>
+                    <th scope="col" th:text="#{label.admin.cancellation.reason}">Cancellation Reason</th>
+                    <th scope="col" th:text="#{label.admin.accept}">Accept</th>
+                    <th scope="col" th:text="#{label.admin.cancel}">Cancel</th>
+                    <th scope="col" th:text="#{label.admin.delete}">Delete</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -67,6 +50,13 @@
                 </tr>
                 </tbody>
             </table>
+            <ul class="nav nav-pills">
+                <li class="nav-item"
+                th:each="p: ${#numbers.sequence(0,request.totalPages - 1)}">
+                    <a class="nav-link" th:classappend="${currentPage}==${p}?'active':''" th:href="@{/admin/(page=${p})}"
+                       th:text="${p + 1}" data-toggle="tooltip" ></a>
+                </li>
+            </ul>
         </div>
 
         <div class="col-md-2"></div>

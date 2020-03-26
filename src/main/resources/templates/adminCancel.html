@@ -4,22 +4,23 @@
     <title>admin</title>
     <meta charset="UTF-8">
     <title>Admin</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css" integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX" crossorigin="anonymous">
+    <!--    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">-->
 </head>
 <body>
 
 
 <div class="row">
     <div class="col-md-4"></div>
-    <div class="col-md-4" >
+    <div class="col-md-4">
         <form th:action="@{/cancelRequest/id={id}(id=${request.id})}" th:object="${request}" method="post">
             <div class="form-group">
-                <label for="inputRepairPrice">Cause of repair request cancellation</label>
-                <input type="text" th:field="*{cancellationReason}" class="form-control" id="inputRepairPrice" aria-describedby="emailHelp" placeholder="Cause">
+                <label for="inputRepairPrice" th:text="#{label.cause.of.cancellation}">Cause of repair request cancellation</label>
+                <input type="text" th:field="*{cancellationReason}" class="form-control" id="inputRepairPrice" aria-describedby="emailHelp" th:placeholder="#{label.cause}">
             </div>
-            <button type="submit" class="btn btn-primary">Accept</button>
+            <button type="submit" class="btn btn-primary" th:text="#{label.button.accept}"></button>
             <form th:action="@{/admin}" method="get">
-                <button type="submit" class="btn btn-danger">Cancel</button>
+                <button type="submit" class="btn btn-danger" th:text="#{label.button.cancel}"></button>
             </form>
         </form>
 
