@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -42,18 +43,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .usersByUsernameQuery("select username, password, enabled " +
                         "from users where username = ?")
                 .authoritiesByUsernameQuery("select username, authority" +
-                        " from authorities where username = ?");
-//                .withDefaultSchema()
-//                .withUser(User.withUsername("user").password("{noop}123").roles("USER"))
-//                .withUser(User.withUsername("admin").password("{noop}123").roles("ADMIN"));
-
+                        " from authorities where username = ?")
+                .passwordEncoder(bcryptPasswordEncoder());
     }
+
+//    @Bean
+//    public PasswordEncoder getPasswordEncoder(){
+//        return NoOpPasswordEncoder.getInstance();
+//    }
 
     @Bean
-    public PasswordEncoder getPasswordEncoder(){
-        return NoOpPasswordEncoder.getInstance();
+    public PasswordEncoder bcryptPasswordEncoder(){
+        return new BCryptPasswordEncoder();
     }
-
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {

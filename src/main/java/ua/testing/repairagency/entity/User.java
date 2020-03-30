@@ -18,11 +18,19 @@ public class User {
     @Column(nullable = false)
     private Long id;
 
+    private String nameEn;
+
+    private String nameUa;
 
     private String username;
 
     private String password;
 
     private boolean enabled;
+
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "username", referencedColumnName = "username",insertable = false, updatable = false)
+    private Authority authority;
 
 }

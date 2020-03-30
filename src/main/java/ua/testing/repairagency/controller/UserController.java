@@ -1,6 +1,9 @@
 package ua.testing.repairagency.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -20,6 +23,9 @@ import javax.validation.Valid;
 
 @Controller
 public class UserController {
+
+    Logger logger = LoggerFactory.getLogger(UserController.class);
+
 
     @Autowired
     private RepairRequestRepository repairRequestRepository;
@@ -45,6 +51,8 @@ public class UserController {
                 findByUsernameEqualsAndAcceptedTrueAndPerformedTrue(authentication.getName()));
         model.addAttribute("users",userRepository.findAll());
         model.addAttribute("authorities", authorityRepository.findAll());
+
+        logger.warn(String.valueOf(LocaleContextHolder.getLocale()));
         return "index";
     }
 
