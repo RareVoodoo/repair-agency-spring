@@ -42,11 +42,6 @@ public class RepairRequestController {
             return new ModelAndView("successfulRequestCreation", "request", repairDTO);
     }
 
-    @GetMapping("/findOne")
-    @ResponseBody
-    public RepairRequest findOne(long id) {
-        return repairRequestRepository.findById(id).get();
-    }
 
     @PostMapping("/saveRequest")
     public String saveRequest(RepairRequest repairRequest){

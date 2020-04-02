@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ua.testing.repairagency.dto.UserDTO;
 import ua.testing.repairagency.entity.Authority;
 import ua.testing.repairagency.entity.User;
 import ua.testing.repairagency.repository.AuthorityRepository;
@@ -15,6 +16,7 @@ import ua.testing.repairagency.repository.UserRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -28,20 +30,20 @@ public class UserDetailsImp implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(username);
-        Authority authority = authorityRepository.getAuthorityByUsername(username);
-        if(user == null){
-            throw new UsernameNotFoundException("No user with login " + username);
-        }
+        Optional<User> user = userRepository.findByUsername(username);
+        Optional<Authority> authority = authorityRepository.getAuthorityByUsername(username);
 
         boolean enabled = true;
         boolean accountNonExpired = true;
         boolean credentialsNonExpired = true;
         boolean accountNonLocked = true;
 
-        return new org.springframework.security.core.userdetails.User(user.getUsername(),user.getPassword(),
+        return new org.springframework.security.core.userdetails.User(user.get().getUsername(),user.get().getPassword(),
                 enabled,
-                accountNonExpired,credentialsNonExpired,accountNonLocked,getAuthorities(authority.getAuthority()));
+                accountNonExpired,
+                credentialsNonExpired,
+                accountNonLocked,
+                getAuthorities(authority.get().getAuthority()));
     }
 
     private static List<GrantedAuthority> getAuthorities (String role) {

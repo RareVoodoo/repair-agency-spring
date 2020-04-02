@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class LatinToUkrainianTransliteration {
-    private static final Map<String, String> letters = new HashMap<>();
+    private static  Map<String, String> letters = new HashMap<>();
 
     static {
         letters.put("Shch", "Щ");
@@ -13,19 +13,19 @@ public class LatinToUkrainianTransliteration {
         letters.put("tsk", "цьк");
         letters.put("yye", "ие");
         letters.put("oye", "оє");
-        letters.put("nky\\\\b", "ньки");
+        letters.put("nky\\b", "ньки");
         letters.put("iie", "іє");
         letters.put("’ye", "`є");
         letters.put("’ya", "`я");
         letters.put("’yi", "`ї");
         letters.put("pie", "п`є");
-        letters.put("skyi\\\\b", "ський");
-        letters.put("\\bZgh", "Зг");
-        letters.put("\\\\Byi\\\\B", "иї");
-        letters.put("\\\\Bmia\\\\B", "м'я");
-        letters.put("\\\\Baie\\\\B", "ає");
-        letters.put("\\\\Bkhai\\\\B", "хай");
-        letters.put("aiv\\\\b", "аїв");
+        letters.put("skyi\\b", "ський");
+        letters.put("\bZgh", "Зг");
+        letters.put("\\Byi", "иї");
+        letters.put("\\Bmia", "м'я");
+        letters.put("\\Baie", "ає");
+        letters.put("\\Bkhai\\B", "хай");
+        letters.put("aiv\\b", "аїв");
         letters.put("ie", "'\\'є");
         letters.put("sk", "ськ");
         letters.put("Zh", "Ж");
@@ -43,17 +43,17 @@ public class LatinToUkrainianTransliteration {
         letters.put("oi", "ої");
         letters.put("yo", "йо");
         letters.put("ya", "я");
-        letters.put("yi\\\\B", "ї");
-        letters.put("\\\\bYe", "Є");
-        letters.put("\\\bye", "є");
-        letters.put("\\\\bYi", "Ї");
-        letters.put("\\\\byi", "ї");
-        letters.put("\\\\bYu", "Ю");
-        letters.put("\\\\bYa", "Я");
-        letters.put("ii\\\\b", "ій");
-        letters.put("yi\\\\b", "ий");
-        letters.put("yy\\\\b", "ий");
-        letters.put("\\\\bY", "Й");
+        letters.put("yi\\B", "ї");
+        letters.put("\bYe", "Є");
+        letters.put("\bye", "є");
+        letters.put("\bYi", "Ї");
+        letters.put("\byi", "ї");
+        letters.put("\bYu", "Ю");
+        letters.put("Ya", "Я");
+        letters.put("ii\b", "ій");
+        letters.put("yi\b", "ий");
+        letters.put("yy\b", "ий");
+        letters.put("\bY", "Й");
         letters.put("А", "A");
         letters.put("a", "а");
         letters.put("B", "Б");

@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Column;
+
 
 @Data
 @AllArgsConstructor
@@ -23,7 +25,9 @@ public class RepairRequestDTO {
 
     private String cancellationReason;
 
-    private Double repairPrice;
+    private Long repairPriceUah;
+
+    private Long repairPriceUsd;
 
     private String userComment;
 

@@ -36,7 +36,7 @@ public class UserValidator  implements Validator {
         if(userDto.getUsername().length() < DEFAULT_MIN_USERNAME_CHARS || userDto.getUsername().length() >DEFAULT_MAX_USERNAME_CHARS){
             errors.rejectValue("username", "size.userForm.username");
         }
-        if(userRepository.findByUsername(userDto.getUsername()) !=null){
+        if(userRepository.findByUsername(userDto.getUsername()).isPresent()){
             errors.rejectValue("username", "duplicate.userForm.username");
         }
 
@@ -49,4 +49,6 @@ public class UserValidator  implements Validator {
             errors.rejectValue("matchingPassword", "diff.userForm.passwordConfirm");
         }
     }
+
+
 }

@@ -1,84 +1,69 @@
 package ua.testing.repairagency.service;
 
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.i18n.LocaleContextHolder;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.testing.repairagency.dto.UserDTO;
 import ua.testing.repairagency.entity.Authority;
 import ua.testing.repairagency.entity.User;
-import ua.testing.repairagency.region.Transliteration;
+import ua.testing.repairagency.region.NameTransliteration;
 import ua.testing.repairagency.repository.AuthorityRepository;
 import ua.testing.repairagency.repository.UserRepository;
 
-import java.util.Locale;
 
 
 @Service
-@Transactional
 public class UserService {
-    Logger logger = LoggerFactory.getLogger(UserService.class);
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private AuthorityRepository authorityRepository;
-
-    private Transliteration transliteration = new Transliteration();
 
 
-    public User registerNewUserAccount(UserDTO accountDto) {
-        User user = new User();
-        Authority authority = new Authority();
+    private static final String USER_ROLE = "ROLE_USER";
 
-        if(LocaleContextHolder.getLocale().equals(Locale.US)){
-            user.setNameEn((accountDto.getNameEn()));
-            user.setNameUa(transliteration.transliterateToUa(accountDto.getNameEn()));
-            logger.warn(accountDto.getUsername() + " latin -> Ukrainian");
-        }else{
-            user.setNameUa((accountDto.getNameEn()));
-            user.setNameEn(transliteration.transliterateToEng(accountDto.getNameEn()));
-            logger.warn(accountDto.getUsername() + " Ukrainian -> Latin");
-        }
-        user.setUsername(accountDto.getUsername());
-        user.setPassword(passwordEncoder.encode(accountDto.getPassword()));
-        user.setEnabled(true);
+    private final PasswordEncoder passwordEncoder;
 
-        authority.setAuthority("ROLE_USER");
-        authority.setUsername(user.getUsername());
+    private final UserRepository userRepository;
 
-        authorityRepository.save(authority);
-        return userRepository.save(user);
+    private final AuthorityRepository authorityRepository;
+
+    private NameTransliteration nameTransliteration = new NameTransliteration();
+
+    public UserService(AuthorityRepository authorityRepository, PasswordEncoder passwordEncoder, UserRepository userRepository) {
+        this.authorityRepository = authorityRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.userRepository = userRepository;
     }
 
+    @Transactional
+    public User registerNewUserAccount(UserDTO accountDto) {
+        authorityRepository.save(Authority.builder()
+                .authority(USER_ROLE)
+                .username(accountDto.getUsername())
+                .build());
+
+        return userRepository.save(User.builder()
+                .nameEn(nameTransliteration.transliterate(NameTransliteration.enLocale,accountDto.getNameEn()))
+                .nameUa(nameTransliteration.transliterate(NameTransliteration.uaLocale,accountDto.getNameEn()))
+                .username(accountDto.getUsername())
+                .password(passwordEncoder.encode(accountDto.getPassword()))
+                .enabled(true)
+                .build());
+
+    }
+
+    @Transactional
     public User registerNewUserAccountWithCustomRole(UserDTO accountDto,String role) {
-        User user = new User();
-        Authority authority = new Authority();
-        if(LocaleContextHolder.getLocale().equals(Locale.US)){
-            user.setNameEn((accountDto.getNameEn()));
-            user.setNameUa(transliteration.transliterateToUa(accountDto.getNameEn()));
-            logger.warn(accountDto.getUsername() + " latin -> Ukrainian");
-        }else{
-            user.setNameUa((accountDto.getNameEn()));
-            user.setNameEn(transliteration.transliterateToEng(accountDto.getNameEn()));
-            logger.warn(accountDto.getUsername() + " Ukrainian -> Latin");
-        }
-        user.setUsername(accountDto.getUsername());
-        user.setPassword(passwordEncoder.encode(accountDto.getPassword()));
-        user.setEnabled(true);
+        authorityRepository.save(Authority.builder()
+                .authority(role)
+                .username(accountDto.getUsername())
+                .build());
 
-        authority.setAuthority(role);
-        authority.setUsername(user.getUsername());
-
-        authorityRepository.save(authority);
-        return userRepository.save(user);
+        return userRepository.save(User.builder()
+                .nameEn(nameTransliteration.transliterate(NameTransliteration.enLocale,accountDto.getNameEn()))
+                .nameUa(nameTransliteration.transliterate(NameTransliteration.uaLocale,accountDto.getNameEn()))
+                .username(accountDto.getUsername())
+                .password(passwordEncoder.encode(accountDto.getPassword()))
+                .enabled(true)
+                .build());
     }
 }

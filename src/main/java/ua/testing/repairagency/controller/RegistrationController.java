@@ -43,7 +43,7 @@ public class RegistrationController {
     @PostMapping("/registration")
     public String registerUserAccount(
             @ModelAttribute("user") @Valid UserDTO accountDto,
-            BindingResult result, Errors errors) {
+            BindingResult result, Errors errors) throws Exception {
 
         userValidator.validate(accountDto,result);
 

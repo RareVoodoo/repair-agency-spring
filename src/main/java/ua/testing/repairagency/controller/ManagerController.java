@@ -1,6 +1,5 @@
 package ua.testing.repairagency.controller;
 
-import antlr.ASTNULLType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,9 +67,7 @@ public class ManagerController {
     public String acceptRequest(@PathVariable Long id,Model model,@ModelAttribute("request") @Valid RepairRequestDTO repairDTO){
         RepairRequest request = repairRequestRepository.findById(id).get();
         request.setAccepted(true);
-        logger.warn("id: " + id);
-        logger.warn("price: " + repairDTO.getRepairPrice());
-        request.setRepairPrice(repairDTO.getRepairPrice());
+        repairRequestService.setRepairPriceWithExchangeRate(repairDTO,request);
         repairRequestRepository.save(request);
         model.addAttribute("request", repairRequestRepository.findAll());
         return "redirect:/admin";
@@ -81,9 +78,11 @@ public class ManagerController {
     @PostMapping("/cancelRequest/id={id}")
     public String cancelRequest(@PathVariable Long id,Model model,@ModelAttribute("request") @Valid RepairRequestDTO repairDTO){
         RepairRequest request = repairRequestRepository.findById(id).get();
+
         request.setAccepted(false);
         request.setPerformed(false);
-        request.setRepairPrice(0.0);
+        request.setRepairPriceUah(RepairRequestService.REPAIR_PRICE_DEFAULT_VALUE);
+        request.setRepairPriceUsd(RepairRequestService.REPAIR_PRICE_DEFAULT_VALUE);
         request.setCancellationReason(repairDTO.getCancellationReason());
         logger.warn("Cancel message: " + repairDTO.getCancellationReason());
         repairRequestRepository.save(request);

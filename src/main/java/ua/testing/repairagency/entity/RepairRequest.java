@@ -2,6 +2,7 @@ package ua.testing.repairagency.entity;
 
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,6 +12,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Data
 @Entity
+@Builder
 @Table(name = "request")
 public class RepairRequest {
 
@@ -34,7 +36,10 @@ public class RepairRequest {
     private String cancellationReason;
 
     @Column
-    private Double repairPrice;
+    private Long repairPriceUah;
+
+    @Column
+    private Long repairPriceUsd;
 
     @Column
     private String userComment;

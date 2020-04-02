@@ -17,7 +17,7 @@
 <form th:action="@{/acceptRequest/id={id}(id=${request.id})}" th:object="${request}" method="post">
     <div class="form-group">
         <label for="inputRepairPrice" th:text="#{label.user.repair.price}"></label>
-        <input type="text" th:field="*{repairPrice}" class="form-control" id="inputRepairPrice" aria-describedby="emailHelp" th:placeholder="#{label.user.repair.price}">
+        <input type="text" th:field="*{repairPriceUsd}" class="form-control" id="inputRepairPrice" aria-describedby="emailHelp" th:placeholder="#{label.user.repair.price}">
     </div>
     <button type="submit" class="btn btn-primary" th:text="#{label.button.accept}"></button>
     <form th:action="@{/admin}" method="get">

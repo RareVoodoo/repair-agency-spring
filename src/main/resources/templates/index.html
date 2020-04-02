@@ -53,7 +53,7 @@
                      <td th:text="${req.description}"></td>
                      <td th:text="${req.accepted}"></td>
                      <td th:text="${req.performed}"></td>
-                     <td th:text="${req.repairPrice}"></td>
+                     <td th:text="${req.repairPriceUsd}"></td>
                      <td th:text="${req.userComment}"></td>
                      <td> <a  th:href="@{/user/userComment/{id}(id=${req.id})}" class="btn btn-success btn-sm text-white">Add Comment</a></td>
                  </tr>
