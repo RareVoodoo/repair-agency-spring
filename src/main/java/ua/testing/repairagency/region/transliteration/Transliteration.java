@@ -1,4 +1,4 @@
-package ua.testing.repairagency.region;
+package ua.testing.repairagency.region.transliteration;
 
 import com.ibm.icu.text.Transliterator;
 
@@ -8,8 +8,7 @@ public class Transliteration {
 
 
     public String transliterateToEng(String message) {
-        Transliterator transliterator = Transliterator.getInstance(CYRILLIC_TO_LATIN);
-        return transliterator.transliterate(message);
+        return Transliterator.getInstance(CYRILLIC_TO_LATIN).transliterate(message);
     }
 
     public String transliterateToUa(String message) {

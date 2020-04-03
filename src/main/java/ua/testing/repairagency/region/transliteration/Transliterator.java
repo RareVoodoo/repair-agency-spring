@@ -1,4 +1,4 @@
-package ua.testing.repairagency.region;
+package ua.testing.repairagency.region.transliteration;
 
 @FunctionalInterface
 public interface Transliterator {

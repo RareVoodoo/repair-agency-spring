@@ -1,4 +1,4 @@
-package ua.testing.repairagency.region;
+package ua.testing.repairagency.region.transliteration;
 
 import java.util.HashMap;
 import java.util.Map;

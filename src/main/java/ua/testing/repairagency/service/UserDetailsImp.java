@@ -19,14 +19,16 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@Transactional
 public class UserDetailsImp implements UserDetailsService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    private AuthorityRepository authorityRepository;
+    private final AuthorityRepository authorityRepository;
+
+    public UserDetailsImp(UserRepository userRepository, AuthorityRepository authorityRepository) {
+        this.userRepository = userRepository;
+        this.authorityRepository = authorityRepository;
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

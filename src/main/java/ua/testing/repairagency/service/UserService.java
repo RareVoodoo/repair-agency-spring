@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ua.testing.repairagency.dto.UserDTO;
 import ua.testing.repairagency.entity.Authority;
 import ua.testing.repairagency.entity.User;
-import ua.testing.repairagency.region.NameTransliteration;
+import ua.testing.repairagency.region.transliteration.NameTransliteration;
 import ua.testing.repairagency.repository.AuthorityRepository;
 import ua.testing.repairagency.repository.UserRepository;
 
@@ -42,8 +42,8 @@ public class UserService {
                 .build());
 
         return userRepository.save(User.builder()
-                .nameEn(nameTransliteration.transliterate(NameTransliteration.enLocale,accountDto.getNameEn()))
-                .nameUa(nameTransliteration.transliterate(NameTransliteration.uaLocale,accountDto.getNameEn()))
+                .nameEn(nameTransliteration.transliterate(NameTransliteration.EN_LOCALE,accountDto.getNameEn()))
+                .nameUa(nameTransliteration.transliterate(NameTransliteration.UA_LOCALE,accountDto.getNameEn()))
                 .username(accountDto.getUsername())
                 .password(passwordEncoder.encode(accountDto.getPassword()))
                 .enabled(true)
@@ -59,8 +59,8 @@ public class UserService {
                 .build());
 
         return userRepository.save(User.builder()
-                .nameEn(nameTransliteration.transliterate(NameTransliteration.enLocale,accountDto.getNameEn()))
-                .nameUa(nameTransliteration.transliterate(NameTransliteration.uaLocale,accountDto.getNameEn()))
+                .nameEn(nameTransliteration.transliterate(NameTransliteration.EN_LOCALE,accountDto.getNameEn()))
+                .nameUa(nameTransliteration.transliterate(NameTransliteration.UA_LOCALE,accountDto.getNameEn()))
                 .username(accountDto.getUsername())
                 .password(passwordEncoder.encode(accountDto.getPassword()))
                 .enabled(true)

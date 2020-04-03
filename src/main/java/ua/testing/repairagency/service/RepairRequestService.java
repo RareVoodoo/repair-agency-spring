@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.testing.repairagency.dto.RepairRequestDTO;
 import ua.testing.repairagency.entity.RepairRequest;
-import ua.testing.repairagency.region.CurrencyConverter;
+import ua.testing.repairagency.region.currency.CurrencyConversion;
+import ua.testing.repairagency.region.currency.CurrencyConverter;
+import ua.testing.repairagency.region.transliteration.NameTransliteration;
 import ua.testing.repairagency.repository.RepairRequestRepository;
 
 import java.util.Locale;
@@ -22,6 +24,7 @@ public class RepairRequestService {
     public static final String USER_COMMENT_DEFAULT_VALUE = "no comment";
 
     private final RepairRequestRepository repairRequestRepository;
+    private CurrencyConversion currencyConversion = new CurrencyConversion();
 
     public RepairRequestService(RepairRequestRepository repairRequestRepository) {
         this.repairRequestRepository = repairRequestRepository;
@@ -46,14 +49,11 @@ public class RepairRequestService {
 
     }
 
-    private CurrencyConverter currencyConverter = new CurrencyConverter();
     public void setRepairPriceWithExchangeRate(RepairRequestDTO repairRequestDTO, RepairRequest repairRequest){
-        if(LocaleContextHolder.getLocale().equals(Locale.US)){
-            repairRequest.setRepairPriceUsd(repairRequestDTO.getRepairPriceUsd());
-            repairRequest.setRepairPriceUah(currencyConverter.UsdToUahConvert(repairRequestDTO.getRepairPriceUsd()));
-        }else{
-            repairRequest.setRepairPriceUah(repairRequestDTO.getRepairPriceUsd());
-            repairRequest.setRepairPriceUsd(currencyConverter.UahToUsdConvert(repairRequestDTO.getRepairPriceUsd()));
-        }
+            repairRequest.setRepairPriceUah(currencyConversion
+                    .convert(NameTransliteration.UA_LOCALE,repairRequestDTO.getRepairPriceUsd()));
+
+            repairRequest.setRepairPriceUsd(currencyConversion
+                    .convert(NameTransliteration.EN_LOCALE,repairRequestDTO.getRepairPriceUsd()));
     }
 }
