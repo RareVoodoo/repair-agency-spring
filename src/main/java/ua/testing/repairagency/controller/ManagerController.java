@@ -43,21 +43,21 @@ public class ManagerController {
         model.addAttribute("currentPage",page);
         model.addAttribute("users",userRepository.findAll());
         model.addAttribute("authorities", authorityRepository.findAll());
-        return "admin";
+        return "admin/adminTables";
     }
 
     @GetMapping("admin/accept/{id}")
     public String redirectToAcceptForm(@PathVariable("id") long id, Model model) {
         RepairRequest repairRequest = repairRequestRepository.findById(id).get();
         model.addAttribute("request", repairRequest);
-        return "adminAccept";
+        return "admin/adminAccept";
     }
 
     @GetMapping("admin/cancel/{id}")
     public String redirectToCancelForm(@PathVariable("id") long id, Model model) {
         RepairRequest repairRequest = repairRequestRepository.findById(id).get();
         model.addAttribute("request", repairRequest);
-        return "adminCancel";
+        return "admin/adminCancel";
     }
 
 

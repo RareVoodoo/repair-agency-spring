@@ -9,7 +9,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import ua.testing.repairagency.service.UserDetailsImp;
@@ -23,16 +22,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private AuthenticationSuccessHandler authenticationSuccessHandler;
 
+    private final DataSource dataSource;
 
     @Autowired
-    private UserDetailsImp userDetailsImp;
-
-    @Autowired
-    private DataSource dataSource;
-
-    @Autowired
-    public WebSecurityConfig(AuthenticationSuccessHandler authenticationSuccessHandler) {
+    public WebSecurityConfig(AuthenticationSuccessHandler authenticationSuccessHandler, DataSource dataSource) {
         this.authenticationSuccessHandler = authenticationSuccessHandler;
+        this.dataSource = dataSource;
     }
 
     @Autowired
@@ -47,10 +42,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .passwordEncoder(bcryptPasswordEncoder());
     }
 
-//    @Bean
-//    public PasswordEncoder getPasswordEncoder(){
-//        return NoOpPasswordEncoder.getInstance();
-//    }
 
     @Bean
     public PasswordEncoder bcryptPasswordEncoder(){
@@ -62,11 +53,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/").permitAll().and()
                 .authorizeRequests().antMatchers("/h2-console/**").permitAll().and()
-                .authorizeRequests().antMatchers("/registration").permitAll()
+                .authorizeRequests().antMatchers("/registration").permitAll().and()
+                .authorizeRequests().antMatchers("/resources/**").permitAll()
 
                 .antMatchers("/user").hasAnyRole("ADMIN","USER")
                 .antMatchers("/admin").hasRole("ADMIN")
                 .antMatchers("/master").hasAnyRole("MASTER", "ADMIN")
+
 
                 .anyRequest().authenticated()
                 .and()
@@ -80,5 +73,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .and().csrf().disable()
                     .headers().frameOptions().disable();
     }
+
 
 }

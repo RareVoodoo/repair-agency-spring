@@ -19,7 +19,7 @@
                 <input type="text" th:field="*{cancellationReason}" class="form-control" id="inputRepairPrice" aria-describedby="emailHelp" th:placeholder="#{label.cause}">
             </div>
             <button type="submit" class="btn btn-primary" th:text="#{label.button.accept}"></button>
-            <form th:action="@{/admin}" method="get">
+            <form th:action="@{/templates/admin}" method="get">
                 <button type="submit" class="btn btn-danger" th:text="#{label.button.cancel}"></button>
             </form>
         </form>
