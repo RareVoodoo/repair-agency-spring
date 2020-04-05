@@ -44,4 +44,7 @@ public class RepairRequest {
     @Column
     private String userComment;
 
+    private String address;
+
+    private String phoneNumber;
 }

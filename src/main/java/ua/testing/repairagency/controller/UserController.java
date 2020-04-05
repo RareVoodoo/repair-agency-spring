@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import ua.testing.repairagency.dto.RepairRequestDTO;
 import ua.testing.repairagency.dto.UserDTO;
 import ua.testing.repairagency.entity.RepairRequest;
-import ua.testing.repairagency.entity.User;
 import ua.testing.repairagency.repository.AuthorityRepository;
 import ua.testing.repairagency.repository.RepairRequestRepository;
 import ua.testing.repairagency.repository.UserRepository;
@@ -27,14 +26,17 @@ public class UserController {
     Logger logger = LoggerFactory.getLogger(UserController.class);
 
 
-    @Autowired
-    private RepairRequestRepository repairRequestRepository;
+    private final RepairRequestRepository repairRequestRepository;
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    private AuthorityRepository authorityRepository;
+    private final AuthorityRepository authorityRepository;
+
+    public UserController(RepairRequestRepository repairRequestRepository, UserRepository userRepository, AuthorityRepository authorityRepository) {
+        this.repairRequestRepository = repairRequestRepository;
+        this.userRepository = userRepository;
+        this.authorityRepository = authorityRepository;
+    }
 
     @GetMapping("/")
     public String goToStartPage(){
@@ -53,7 +55,7 @@ public class UserController {
         model.addAttribute("authorities", authorityRepository.findAll());
 
         logger.warn(String.valueOf(LocaleContextHolder.getLocale()));
-        return "index";
+        return "user/index";
     }
 
     @GetMapping("/login")
@@ -62,6 +64,14 @@ public class UserController {
         model.addAttribute("user", userDto);
         return "login";
     }
+
+    @GetMapping("/newRequest")
+    public String redirectToRequestForm(Model model){
+        RepairRequestDTO repairRequestDTO = new RepairRequestDTO();
+        model.addAttribute("request",repairRequestDTO);
+        return "user/requestRegistration";
+    }
+
 
     @GetMapping("user/userComment/{id}")
     public String redirectToUserCommentForm(@PathVariable("id") long id, Model model) {

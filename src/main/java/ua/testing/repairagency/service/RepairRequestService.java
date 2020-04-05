@@ -41,6 +41,8 @@ public class RepairRequestService {
                 .description(repairRequestDTO.getDescription())
                 .accepted(false)
                 .performed(false)
+                .phoneNumber(repairRequestDTO.getPhoneNumber())
+                .address(repairRequestDTO.getAddress())
                 .cancellationReason(CANCELLATION_REASON_DEFAULT_VALUE)
                 .userComment(USER_COMMENT_DEFAULT_VALUE)
                 .repairPriceUah(REPAIR_PRICE_DEFAULT_VALUE)

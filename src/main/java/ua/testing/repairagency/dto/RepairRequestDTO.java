@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
+import javax.persistence.Transient;
 
 
 @Data
@@ -30,5 +31,11 @@ public class RepairRequestDTO {
     private Long repairPriceUsd;
 
     private String userComment;
+
+
+    private String address;
+
+
+    private String phoneNumber;
 
 }

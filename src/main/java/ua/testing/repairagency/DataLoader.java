@@ -18,37 +18,30 @@ public class DataLoader implements CommandLineRunner {
 
         UserDTO userAccount1 = UserDTO.builder()
                 .nameEn("Ivan Varenychenko")
-                .username("user1")
+                .username("user")
                 .password("pass")
                 .matchingPassword("pass")
                 .build();
 
         UserDTO adminAccount1 = UserDTO.builder()
                 .nameEn("Fedir Rybak")
-                .username("manager1")
+                .username("manager")
                 .password("pass")
                 .matchingPassword("pass")
                 .build();
 
         UserDTO masterAccount1 = UserDTO.builder()
                 .nameEn("Serhiy Brylo")
-                .username("master1")
+                .username("master")
                 .password("pass")
                 .matchingPassword("pass")
                 .build();
 
-        UserDTO masterAccount2 = UserDTO.builder()
-                .nameEn("Vysko Yan")
-                .username("master2")
-                .password("pass")
-                .matchingPassword("pass")
-                .build();
 
 
         userService.registerNewUserAccount(userAccount1);
         userService.registerNewUserAccountWithCustomRole(adminAccount1,"ROLE_ADMIN");
         userService.registerNewUserAccountWithCustomRole(masterAccount1, "ROLE_MASTER");
-        userService.registerNewUserAccountWithCustomRole(masterAccount2, "ROLE_MASTER");
 
     }
 }
