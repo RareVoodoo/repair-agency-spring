@@ -8,5 +8,6 @@ import java.util.Optional;
 
 public interface RepairRequestRepository extends JpaRepository< RepairRequest,Long> {
     List <RepairRequest> findByUsernameEqualsAndAcceptedTrueAndPerformedTrue(String username);
+    List<RepairRequest> findByAcceptedTrueAndPerformedFalse();
 
 }

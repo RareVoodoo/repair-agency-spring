@@ -18,12 +18,13 @@
                 <form action="/registration" th:object="${user}" method="POST" enctype="utf8">
                     <h2 class="form-signin-heading" th:text="#{page.registration.title}"></h2>
                     <div>
-                        <label for="name" class="sr-only" th:text="#{page.form.username}"></label>
+                        <label for="name" class="sr-only" th:text="#{page.form.full.name}"></label>
                         <input type="text" th:field="*{nameEn}" id="name" name="username" class="form-control"
-                               th:placeholder="#{page.form.username}" required autofocus>
+                               th:placeholder="#{page.form.full.name}" required autofocus>
                         <p class="alert alert-danger" role="alert" th:each="error : ${#fields.errors('username')}"
                            th:text="${error}">Validation error</p>
                     </div>
+                    <br>
 
                     <div>
                         <label for="username" class="sr-only" th:text="#{page.form.username}"></label>

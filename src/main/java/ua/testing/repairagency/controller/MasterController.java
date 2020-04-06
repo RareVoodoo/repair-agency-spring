@@ -17,8 +17,14 @@ public class MasterController {
 
     @GetMapping("/master")
     public String listMasterRepairRequests(Model model) {
+        model.addAttribute("request", repairRequestRepository.findByAcceptedTrueAndPerformedFalse());
+        return "master/master";
+    }
+
+    @GetMapping("/masterArchive")
+    public String listMasterArchive(Model model){
         model.addAttribute("request", repairRequestRepository.findAll());
-        return "master";
+        return "master/masterArchive";
     }
 
 

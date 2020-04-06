@@ -32,9 +32,7 @@ public class RepairRequestDTO {
 
     private String userComment;
 
-
     private String address;
-
 
     private String phoneNumber;
 
