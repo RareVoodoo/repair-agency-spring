@@ -12,6 +12,7 @@ import ua.testing.repairagency.region.transliteration.NameTransliteration;
 import ua.testing.repairagency.repository.AuthorityRepository;
 import ua.testing.repairagency.repository.UserRepository;
 
+import java.util.List;
 
 
 @Service
@@ -34,6 +35,8 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
+
+
     @Transactional
     public User registerNewUserAccount(UserDTO accountDto) {
         authorityRepository.save(Authority.builder()
@@ -52,7 +55,7 @@ public class UserService {
     }
 
     @Transactional
-    public User registerNewUserAccountWithCustomRole(UserDTO accountDto,String role) {
+    public User registerNewUserAccount(UserDTO accountDto, String role) {
         authorityRepository.save(Authority.builder()
                 .authority(role)
                 .username(accountDto.getUsername())
@@ -65,5 +68,9 @@ public class UserService {
                 .password(passwordEncoder.encode(accountDto.getPassword()))
                 .enabled(true)
                 .build());
+    }
+
+    public List<User> findAll(){
+        return userRepository.findAll();
     }
 }

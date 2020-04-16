@@ -3,7 +3,6 @@ package ua.testing.repairagency.controller;
 
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -12,11 +11,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.servlet.ModelAndView;
 import ua.testing.repairagency.dto.UserDTO;
 import ua.testing.repairagency.entity.User;
 import ua.testing.repairagency.service.UserService;
-import ua.testing.repairagency.validator.UserValidator;
+import ua.testing.repairagency.validator.UserRegistrationValidator;
 
 import javax.validation.Valid;
 
@@ -27,11 +25,13 @@ public class RegistrationController {
 
      Logger logger = LoggerFactory.getLogger(RegistrationController.class);
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+    private final UserRegistrationValidator userRegistrationValidator;
 
-    @Autowired
-    private UserValidator userValidator;
+    public RegistrationController(UserService userService, UserRegistrationValidator userRegistrationValidator) {
+        this.userService = userService;
+        this.userRegistrationValidator = userRegistrationValidator;
+    }
 
     @GetMapping("/registration")
     public String showRegistrationForm(WebRequest request, Model model) {
@@ -45,7 +45,7 @@ public class RegistrationController {
             @ModelAttribute("user") @Valid UserDTO accountDto,
             BindingResult result, Errors errors) throws Exception {
 
-        userValidator.validate(accountDto,result);
+        userRegistrationValidator.validate(accountDto,result);
 
         User registered = new User();
         if (!result.hasErrors()) {

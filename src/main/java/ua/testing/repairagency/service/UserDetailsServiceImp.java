@@ -19,20 +19,20 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UserDetailsImp implements UserDetailsService {
+public class UserDetailsServiceImp implements UserDetailsService {
 
     private final UserRepository userRepository;
 
     private final AuthorityRepository authorityRepository;
 
-    public UserDetailsImp(UserRepository userRepository, AuthorityRepository authorityRepository) {
+    public UserDetailsServiceImp(UserRepository userRepository, AuthorityRepository authorityRepository) {
         this.userRepository = userRepository;
         this.authorityRepository = authorityRepository;
     }
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<User> user = userRepository.findByUsername(username);
+
         Optional<Authority> authority = authorityRepository.getAuthorityByUsername(username);
 
         boolean enabled = true;

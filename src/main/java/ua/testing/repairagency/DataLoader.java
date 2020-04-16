@@ -40,8 +40,8 @@ public class DataLoader implements CommandLineRunner {
 
 
         userService.registerNewUserAccount(userAccount1);
-        userService.registerNewUserAccountWithCustomRole(adminAccount1,"ROLE_ADMIN");
-        userService.registerNewUserAccountWithCustomRole(masterAccount1, "ROLE_MASTER");
+        userService.registerNewUserAccount(adminAccount1,"ROLE_ADMIN");
+        userService.registerNewUserAccount(masterAccount1, "ROLE_MASTER");
 
     }
 }

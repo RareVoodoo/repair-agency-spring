@@ -15,16 +15,13 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
   <!-- CSS Files -->
   <link th:href="@{/css/material-dashboard.css}" rel="stylesheet"/>
+
 </head>
 
 <body class="">
   <div class="wrapper ">
     <div class="sidebar" data-color="purple" data-background-color="white" data-image="./img/sidebar-1.jpg">
-      <!--
-        Tip 1: You can change the color of the sidebar using: data-color="purple | azure | green | orange | danger"
 
-        Tip 2: you can also add an image using data-image tag
-    -->
       <div class="logo"><a href="#" class="simple-text logo-normal">
           Repair service
         </a></div>
@@ -68,8 +65,6 @@
                   </p>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-<!--                  <a class="dropdown-item" href="#">English</a>-->
-<!--                  <a class="dropdown-item" href="#">Українська</a>-->
                   <button class="dropdown-item" id="locale_en" value="en" th:text="#{lang.eng}"></button>
                   <button  class="dropdown-item" id="locale_ua" value="ua" th:text="#{lang.ua}"></button>
                 </div>
@@ -135,6 +130,17 @@
                       </tr>
                       </tbody>
                     </table>
+                    <nav aria-label="Page navigation example">
+                      <ul class="pagination">
+                        <th:block th:each="i: ${#numbers.sequence(0, request.totalPages - 1)}">
+                          <li th:if="${request.number == i}" class="page-item selected"><a class="page-link active">[[${i}+1]]</a></li>
+                          <li th:unless="${request.number == i}" class="page-item">
+                                 <a class="page-link" th:href="@{/admin(page=${i},size=${request.size})}">[[${i}+1]]</a>
+                                              </li>
+                        </th:block>
+                      </ul>
+                    </nav>
+
                   </div>
                 </div>
               </div>

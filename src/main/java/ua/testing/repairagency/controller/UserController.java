@@ -2,7 +2,6 @@ package ua.testing.repairagency.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -13,9 +12,8 @@ import org.springframework.web.bind.annotation.*;
 import ua.testing.repairagency.dto.RepairRequestDTO;
 import ua.testing.repairagency.dto.UserDTO;
 import ua.testing.repairagency.entity.RepairRequest;
-import ua.testing.repairagency.repository.AuthorityRepository;
-import ua.testing.repairagency.repository.RepairRequestRepository;
-import ua.testing.repairagency.repository.UserRepository;
+import ua.testing.repairagency.service.RepairRequestService;
+import ua.testing.repairagency.service.UserService;
 
 import javax.validation.Valid;
 
@@ -25,21 +23,17 @@ public class UserController {
 
     Logger logger = LoggerFactory.getLogger(UserController.class);
 
+    final UserService userService;
 
-    private final RepairRequestRepository repairRequestRepository;
+    final RepairRequestService repairRequestService;
 
-    private final UserRepository userRepository;
-
-    private final AuthorityRepository authorityRepository;
-
-    public UserController(RepairRequestRepository repairRequestRepository, UserRepository userRepository, AuthorityRepository authorityRepository) {
-        this.repairRequestRepository = repairRequestRepository;
-        this.userRepository = userRepository;
-        this.authorityRepository = authorityRepository;
+    public UserController( RepairRequestService repairRequestService, UserService userService) {
+        this.repairRequestService = repairRequestService;
+        this.userService = userService;
     }
 
     @GetMapping("/")
-    public String goToStartPage(){
+    public String redirectToRegisterPage(){
         return "redirect:/registration";
     }
 
@@ -49,11 +43,8 @@ public class UserController {
 
         RepairRequestDTO repairRequestDTO = new RepairRequestDTO();
         model.addAttribute("request",repairRequestDTO);
-        model.addAttribute("requestRep",repairRequestRepository.
-                findByUsernameEqualsAndAcceptedTrueAndPerformedTrue(authentication.getName()));
-        model.addAttribute("users",userRepository.findAll());
-        model.addAttribute("authorities", authorityRepository.findAll());
-
+        model.addAttribute("requestRep",repairRequestService.findExecutedRequestsByUsername(authentication.getName()));
+        model.addAttribute("users",userService.findAll());
         logger.warn(String.valueOf(LocaleContextHolder.getLocale()));
         return "user/index";
     }
@@ -75,7 +66,7 @@ public class UserController {
 
     @GetMapping("user/userComment/{id}")
     public String redirectToUserCommentForm(@PathVariable("id") long id, Model model) {
-        RepairRequest repairRequest = repairRequestRepository.findById(id).get();
+        RepairRequest repairRequest = repairRequestService.findById(id);
         model.addAttribute("request", repairRequest);
         return "userComment";
     }
@@ -86,10 +77,10 @@ public class UserController {
                                  Model model,
                                  @ModelAttribute("requestRep") @Valid RepairRequestDTO repairDTO ){
 
-        RepairRequest request = repairRequestRepository.findById(id).get();
+        RepairRequest request = repairRequestService.findById(id);
         request.setUserComment(repairDTO.getUserComment());
-        repairRequestRepository.save(request);
-        model.addAttribute("requestRep", repairRequestRepository.findAll());
+        repairRequestService.save(request);
+        model.addAttribute("requestRep", repairRequestService.findAll());
         return "redirect:/user";
     }
 
