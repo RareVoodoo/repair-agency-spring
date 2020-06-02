@@ -118,8 +118,8 @@
                         <td th:text="${req.description}"></td>
                         <td th:text="${req.repairPriceUsd}"></td>
                         <td th:text="${req.cancellationReason}"></td>
-                        <td> <a  th:href="@{/admin/accept/{id}(id=${req.id})}" class="btn btn-success btn-sm text-white">Accept</a></td>
-                        <td> <a  th:href="@{/admin/cancel/{id}(id=${req.id})}" class="btn btn-danger btn-sm text-white">Cancel</a></td>
+                        <td> <a th:href="@{/admin/accept/{id}(id=${req.id})}" class="btn btn-success btn-sm text-white">Accept</a></td>
+                        <td> <a th:href="@{/admin/cancel/{id}(id=${req.id})}" class="btn btn-danger btn-sm text-white">Cancel</a></td>
                         <td>
                           <form th:action="@{/admin/delete/{id}(id=${req.id})}" method="POST" enctype="multipart/form-data">
                             <div class="form-group">

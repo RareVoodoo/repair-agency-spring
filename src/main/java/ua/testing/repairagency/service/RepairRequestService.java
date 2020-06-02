@@ -3,18 +3,15 @@ package ua.testing.repairagency.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ua.testing.repairagency.controller.ManagerController;
 import ua.testing.repairagency.dto.RepairRequestDTO;
 import ua.testing.repairagency.entity.RepairRequest;
 import ua.testing.repairagency.region.currency.CurrencyConversion;
-import ua.testing.repairagency.region.currency.CurrencyConverter;
 import ua.testing.repairagency.region.transliteration.NameTransliteration;
 import ua.testing.repairagency.repository.RepairRequestRepository;
 
@@ -41,7 +38,6 @@ public class RepairRequestService {
 
 
 
-    @Transactional
     public RepairRequest createNewRepairRequest(RepairRequestDTO repairRequestDTO){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
@@ -81,7 +77,7 @@ public class RepairRequestService {
         return repairRequestRepository.save(request);
     }
 
-
+    @Transactional
     public void acceptUserRequestById(Long id, RepairRequestDTO repairRequestDTO){
         RepairRequest request = repairRequestRepository.findById(id).get();
         request.setAccepted(true);

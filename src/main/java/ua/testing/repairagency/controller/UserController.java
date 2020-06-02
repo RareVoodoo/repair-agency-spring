@@ -43,6 +43,7 @@ public class UserController {
 
         RepairRequestDTO repairRequestDTO = new RepairRequestDTO();
         model.addAttribute("request",repairRequestDTO);
+        logger.info("Username = " + authentication.getName());
         model.addAttribute("requestRep",repairRequestService.findExecutedRequestsByUsername(authentication.getName()));
         model.addAttribute("users",userService.findAll());
         logger.warn(String.valueOf(LocaleContextHolder.getLocale()));
