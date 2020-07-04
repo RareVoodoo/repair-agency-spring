@@ -7,9 +7,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
-import ua.testing.repairagency.dto.RepairRequestDTO;
+import ua.testing.repairagency.dto.RepairRequestDto;
 import ua.testing.repairagency.entity.RepairRequest;
 import ua.testing.repairagency.service.RepairRequestService;
+import ua.testing.repairagency.util.Constants;
 
 import javax.validation.Valid;
 
@@ -27,21 +28,24 @@ public class RepairRequestController {
 
 
     @PostMapping("/newRequest")
-    public ModelAndView createRepairRequest(@ModelAttribute("request") @Valid RepairRequestDTO repairDTO, BindingResult result) {
-        RepairRequest repairRequest = new RepairRequest();
+    public ModelAndView createRepairRequest(
+            @ModelAttribute(Constants.REQUEST_ATTRIBUTE) @Valid RepairRequestDto repairDTO,
+            BindingResult result) {
         if (!result.hasErrors()) {
-           repairRequest =  repairRequestService.createNewRepairRequest(repairDTO);
+            repairRequestService.createNewRepairRequest(repairDTO);
+           return new ModelAndView(Constants.SUCCESSFUL_REQUEST_CREATION_VIEW, Constants.REQUEST_ATTRIBUTE, repairDTO);
         }else{
             logger.error(String.valueOf(result.getAllErrors()));
         }
-            return new ModelAndView("successfulRequestCreation", "request", repairDTO);
+
+        return new ModelAndView(Constants.REQUEST_REGISTRATION_VIEW,Constants.REQUEST_ATTRIBUTE,repairDTO);
     }
 
 
     @PostMapping("/saveRequest")
     public String saveRequest(RepairRequest repairRequest){
         repairRequestService.save(repairRequest);
-        return "redirect:/admin";
+        return Constants.ADMIN_PAGE_PATH_REDIRECT;
     }
 
 }

@@ -3,12 +3,16 @@ package ua.testing.repairagency.controller;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import ua.testing.repairagency.dto.RepairRequestDTO;
+import org.springframework.web.servlet.ModelAndView;
+import ua.testing.repairagency.dto.RepairRequestDto;
 import ua.testing.repairagency.entity.RepairRequest;
 import ua.testing.repairagency.service.RepairRequestService;
 import ua.testing.repairagency.service.UserService;
+import ua.testing.repairagency.util.Constants;
 
 import javax.validation.Valid;
 
@@ -17,65 +21,86 @@ import javax.validation.Valid;
 public class ManagerController {
 
 
-    private static final int DEFAULT_PAGE_SIZE = 3;
-
     final RepairRequestService repairRequestService;
     final UserService userService;
 
 
-
-    public ManagerController( RepairRequestService repairRequestService, UserService userService) {
+    public ManagerController(RepairRequestService repairRequestService, UserService userService) {
         this.repairRequestService = repairRequestService;
         this.userService = userService;
     }
 
 
-
     @GetMapping("/admin")
-    public String listManagerRepairRequests(@PageableDefault(size = DEFAULT_PAGE_SIZE) Pageable pageable,
+    public String listManagerRepairRequests(@PageableDefault(size = Constants.DEFAULT_PAGE_SIZE) Pageable pageable,
                                             Model model) {
-        model.addAttribute("request", repairRequestService.findAll(pageable));
-        model.addAttribute("users", userService.findAll());
-        return "admin/adminTables";
+        model.addAttribute(Constants.REQUEST_ATTRIBUTE, repairRequestService.findAll(pageable));
+        model.addAttribute(Constants.USERS_ATTRIBUTE, userService.findAll());
+        return Constants.ADMIN_TABLES_VIEW;
     }
 
 
-    @GetMapping("admin/accept/{id}")
-    public String redirectToAcceptForm(@PathVariable("id") long id, Model model) {
+    @GetMapping("admin/accept/username={username}")
+    public String redirectToAcceptForm(@RequestParam Long id, Model model) {
         RepairRequest repairRequest = repairRequestService.findById(id);
-        model.addAttribute("request", repairRequest);
-        return "admin/adminAccept";
+        model.addAttribute(Constants.REQUEST_ATTRIBUTE, repairRequest);
+        return Constants.ADMIN_ACCEPT_VIEW;
     }
 
-    @GetMapping("admin/cancel/{id}")
-    public String redirectToCancelForm(@PathVariable("id") long id, Model model) {
+
+    @PostMapping("/acceptRequest/username={username}")
+    public ModelAndView acceptRequest(@PathVariable String username,
+                                @RequestParam Long id,
+                                Model model,
+                                @PageableDefault(size = Constants.DEFAULT_PAGE_SIZE) Pageable pageable,
+                                @ModelAttribute(Constants.REQUEST_ATTRIBUTE) @Valid RepairRequestDto repairDTO,
+                                BindingResult result) {
+
+        if (!result.hasErrors()) {
+            repairRequestService.acceptUserRequest(id, repairDTO);
+            model.addAttribute(Constants.REQUEST_ATTRIBUTE, repairRequestService.findAll());
+            return new ModelAndView("redirect:/admin",
+                    Constants.REQUEST_ATTRIBUTE,
+                    repairRequestService.findAll(pageable));
+
+        }
+        return new ModelAndView(Constants.ADMIN_ACCEPT_VIEW, Constants.REQUEST_ATTRIBUTE, repairDTO);
+    }
+
+
+    @GetMapping("admin/cancel/username={username}")
+    public String redirectToCancelForm(@RequestParam Long id,
+                                       Model model) {
         RepairRequest repairRequest = repairRequestService.findById(id);
-        model.addAttribute("request", repairRequest);
-        return "admin/adminCancel";
+        model.addAttribute(Constants.REQUEST_ATTRIBUTE, repairRequest);
+        return Constants.ADMIN_CANCEL_VIEW;
+    }
+
+    @PostMapping("/cancelRequest/username={username}")
+    public ModelAndView cancelRequest(@PathVariable String username,
+                                      @RequestParam Long id,
+                                      Model model,
+                                      @PageableDefault(size = Constants.DEFAULT_PAGE_SIZE) Pageable pageable,
+                                      @ModelAttribute(Constants.REQUEST_ATTRIBUTE) @Valid RepairRequestDto repairDTO,
+                                      BindingResult result) {
+        if (!result.hasErrors()) {
+            repairRequestService.cancelUserRequest(id, repairDTO);
+            return new ModelAndView("redirect:/admin",
+                    Constants.REQUEST_ATTRIBUTE,
+                    repairRequestService.findAll(pageable));
+        }
+
+        return new ModelAndView(Constants.ADMIN_CANCEL_VIEW, Constants.REQUEST_ATTRIBUTE, repairDTO);
     }
 
 
-    @PostMapping("/acceptRequest/id={id}")
-    public String acceptRequest(@PathVariable Long id, Model model, @ModelAttribute("request") @Valid RepairRequestDTO repairDTO) {
-        repairRequestService.acceptUserRequestById(id,repairDTO);
-        model.addAttribute("request", repairRequestService.findAll());
-        return "redirect:/admin";
-
-    }
-
-
-    @PostMapping("/cancelRequest/id={id}")
-    public String cancelRequest(@PathVariable Long id, Model model, @ModelAttribute("request") @Valid RepairRequestDTO repairDTO) {
-        repairRequestService.cancelUserRequest(id, repairDTO);
-        model.addAttribute("request", repairRequestService.findAll());
-        return "redirect:/admin";
-    }
-
-    @PostMapping("/admin/delete/{id}")
-    public String delete(@PathVariable Long id, Model model) {
+    @Transactional
+    @PostMapping("/admin/delete/username={username}")
+    public String delete(@RequestParam Long id,
+                         Model model) {
         repairRequestService.deleteUserRequestById(id);
-        model.addAttribute("request", repairRequestService.findAll());
-        return "redirect:/admin";
+        model.addAttribute(Constants.REQUEST_ATTRIBUTE, repairRequestService.findAll());
+        return Constants.ADMIN_PAGE_PATH_REDIRECT;
     }
 
 

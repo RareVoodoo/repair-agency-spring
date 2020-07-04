@@ -1,25 +1,24 @@
 package ua.testing.repairagency.service;
 
 
-
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ua.testing.repairagency.dto.UserDTO;
+import ua.testing.repairagency.dto.UserDto;
 import ua.testing.repairagency.entity.Authority;
 import ua.testing.repairagency.entity.User;
 import ua.testing.repairagency.region.transliteration.NameTransliteration;
 import ua.testing.repairagency.repository.AuthorityRepository;
 import ua.testing.repairagency.repository.UserRepository;
+import ua.testing.repairagency.util.Constants;
 
 import java.util.List;
 
-
+@Component
 @Service
 public class UserService {
 
-
-    private static final String USER_ROLE = "ROLE_USER";
 
     private final PasswordEncoder passwordEncoder;
 
@@ -36,17 +35,21 @@ public class UserService {
     }
 
 
-
+    /**
+     * Adds user and user authority as record to the db
+     *
+     * @param accountDto user account object
+     */
     @Transactional
-    public User registerNewUserAccount(UserDTO accountDto) {
+    public void registerNewUserAccount(UserDto accountDto) {
         authorityRepository.save(Authority.builder()
-                .authority(USER_ROLE)
+                .authority(Constants.USER_ROLE)
                 .username(accountDto.getUsername())
                 .build());
 
-        return userRepository.save(User.builder()
-                .nameEn(nameTransliteration.transliterate(NameTransliteration.EN_LOCALE,accountDto.getNameEn()))
-                .nameUa(nameTransliteration.transliterate(NameTransliteration.UA_LOCALE,accountDto.getNameEn()))
+        userRepository.save(User.builder()
+                .nameEn(nameTransliteration.transliterate(Constants.EN_LOCALE, accountDto.getNameEn()))
+                .nameUa(nameTransliteration.transliterate(Constants.UA_LOCALE, accountDto.getNameEn()))
                 .username(accountDto.getUsername())
                 .password(passwordEncoder.encode(accountDto.getPassword()))
                 .enabled(true)
@@ -54,23 +57,30 @@ public class UserService {
 
     }
 
+    /**
+     * Adds user and user's custom authority as record to the db
+     *
+     * @param accountDto user account object
+     * @param authority  user's authority
+     */
     @Transactional
-    public User registerNewUserAccount(UserDTO accountDto, String role) {
+    public void registerNewUserAccount(UserDto accountDto, String authority) {
         authorityRepository.save(Authority.builder()
-                .authority(role)
+                .authority(authority)
                 .username(accountDto.getUsername())
                 .build());
 
-        return userRepository.save(User.builder()
-                .nameEn(nameTransliteration.transliterate(NameTransliteration.EN_LOCALE,accountDto.getNameEn()))
-                .nameUa(nameTransliteration.transliterate(NameTransliteration.UA_LOCALE,accountDto.getNameEn()))
+        userRepository.save(User.builder()
+                .nameEn(nameTransliteration.transliterate(Constants.EN_LOCALE, accountDto.getNameEn()))
+                .nameUa(nameTransliteration.transliterate(Constants.UA_LOCALE, accountDto.getNameEn()))
                 .username(accountDto.getUsername())
                 .password(passwordEncoder.encode(accountDto.getPassword()))
                 .enabled(true)
                 .build());
+
     }
 
-    public List<User> findAll(){
+    public List<User> findAll() {
         return userRepository.findAll();
     }
 }

@@ -118,12 +118,12 @@
                         <td th:text="${req.description}"></td>
                         <td th:text="${req.repairPriceUsd}"></td>
                         <td th:text="${req.cancellationReason}"></td>
-                        <td> <a th:href="@{/admin/accept/{id}(id=${req.id})}" class="btn btn-success btn-sm text-white">Accept</a></td>
-                        <td> <a th:href="@{/admin/cancel/{id}(id=${req.id})}" class="btn btn-danger btn-sm text-white">Cancel</a></td>
+                        <td> <a th:href="@{/admin/accept/username={username}(username=${req.username},id=${req.id})}" th:text="#{label.button.accept}" class="btn btn-success btn-sm text-white">Accept</a></td>
+                        <td> <a th:href="@{/admin/cancel/username={username}(username=${req.username},id=${req.id})}" th:text="#{label.button.cancel}" class="btn btn-danger btn-sm text-white">Cancel</a></td>
                         <td>
-                          <form th:action="@{/admin/delete/{id}(id=${req.id})}" method="POST" enctype="multipart/form-data">
+                          <form th:action="@{/admin/delete/username={username}(username=${req.username},id=${req.id})}" method="POST" enctype="multipart/form-data">
                             <div class="form-group">
-                              <button type="submit" class="btn btn-danger btn-sm text-white">Delete</button>
+                              <button type="submit" th:text="#{label.button.delete}" class="btn btn-danger btn-sm text-white" >Delete</button>
                             </div>
                           </form>
                         </td>

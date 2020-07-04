@@ -10,10 +10,12 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.stereotype.Component;
+import ua.testing.repairagency.util.Constants;
 
 import javax.sql.DataSource;
 
-
+@Component
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -33,15 +35,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         authenticationMgr.
                 jdbcAuthentication()
                 .dataSource(dataSource)
-                .usersByUsernameQuery("select username, password, enabled " +
-                        "from users where username = ?")
-                .authoritiesByUsernameQuery("select username, authority" +
-                        " from authorities where username = ?")
+                .usersByUsernameQuery(Constants.USERS_BY_USERNAME_QUERY)
+                .authoritiesByUsernameQuery(Constants.AUTHORITIES_BY_USERNAME_QUERY)
                 .passwordEncoder(bcryptPasswordEncoder());
     }
 
 
     @Bean
+
     public PasswordEncoder bcryptPasswordEncoder(){
         return new BCryptPasswordEncoder();
     }

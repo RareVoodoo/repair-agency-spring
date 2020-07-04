@@ -5,8 +5,8 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-import static ua.testing.repairagency.region.transliteration.NameTransliteration.EN_LOCALE;
-import static ua.testing.repairagency.region.transliteration.NameTransliteration.UA_LOCALE;
+import static ua.testing.repairagency.util.Constants.EN_LOCALE;
+import static ua.testing.repairagency.util.Constants.UA_LOCALE;
 
 public class CurrencyConversion {
     private Conversion conversion = new Conversion();

@@ -5,6 +5,6 @@ insert into request (username, description, accepted, performed, cancellation_re
 ('zina123','Check electricity ', true ,false,'not canceled',0,0,'no comment'),
 ('varder45','install reflector boards', true ,false,'not canceled',0,0,'no comment'),
 ('cidsers','clean the kitchen drain', false ,false,'not canceled',0,0,'no comment'),
-('tremolo','install double-glazed window', false ,false,'not canceled',0,0,'no comment'),
-('stasy363','dig a hole in the plot', false ,false,'not canceled',0,0,'no comment');
+('tremologui','install double-glazed window', false ,false,'not canceled',0,0,'no comment'),
+('user','dig a hole in the plot', true ,true ,'not canceled',0,0,'no comment');
 

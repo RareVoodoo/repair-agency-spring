@@ -110,12 +110,20 @@
                                             <div class="form-group">
                                                 <label class="bmd-label-floating" th:text="#{page.user.address}"></label>
                                                 <input type="text" th:field="*{address}" class="form-control">
+                                                <p class="alert alert-danger"
+                                                   th:if="${#fields.hasErrors('address')}"
+                                                   th:errors="*{address}">
+                                                </p>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="bmd-label-floating" th:text="#{page.user.phone.number}"></label>
                                                 <input type="text" th:field="*{phoneNumber}" class="form-control">
+                                                <p class="alert alert-danger"
+                                                   th:if="${#fields.hasErrors('phoneNumber')}"
+                                                   th:errors="*{phoneNumber}">
+                                                </p>
                                             </div>
                                         </div>
                                     </div>
@@ -126,6 +134,10 @@
                                                 <div class="form-group">
                                                     <label class="bmd-label-floating" th:text="#{label.user.description.example}"></label>
                                                     <textarea class="form-control" th:field="*{description}" rows="3"></textarea>
+                                                    <p class="alert alert-danger"
+                                                       th:if="${#fields.hasErrors('description')}"
+                                                       th:errors="*{description}">
+                                                    </p>
                                                 </div>
                                             </div>
                                         </div>

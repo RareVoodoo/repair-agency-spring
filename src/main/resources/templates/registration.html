@@ -21,7 +21,7 @@
                         <label for="name" class="sr-only" th:text="#{page.form.full.name}"></label>
                         <input type="text" th:field="*{nameEn}" id="name" name="username" class="form-control"
                                th:placeholder="#{page.form.full.name}" required autofocus>
-                        <p class="alert alert-danger" role="alert" th:each="error : ${#fields.errors('username')}"
+                        <p class="alert alert-danger" role="alert" th:each="error : ${#fields.errors('nameEn')}"
                            th:text="${error}">Validation error</p>
                     </div>
                     <br>
@@ -30,8 +30,10 @@
                         <label for="username" class="sr-only" th:text="#{page.form.username}"></label>
                         <input type="text" th:field="*{username}" id="username" name="username" class="form-control"
                                th:placeholder="#{page.form.username}" required autofocus>
-                        <p class="alert alert-danger" role="alert" th:each="error : ${#fields.errors('username')}"
-                           th:text="${error}">Validation error</p>
+                        <p class="alert alert-danger"
+                           th:if="${#fields.hasErrors('username')}"
+                           th:errors="*{username}">
+                        </p>
                     </div>
                     <br>
 
@@ -39,8 +41,10 @@
                         <label for="password" class="sr-only" th:text="#{page.form.password}">Password</label>
                         <input type="password" th:field="*{password}" id="password" name="password" class="form-control"
                                th:placeholder="#{page.form.password}" required>
-                        <p class="alert alert-danger" role="alert" th:each="error : ${#fields.errors('password')}"
-                           th:text="${error}"></p>
+                        <p class="alert alert-danger"
+                           th:if="${#fields.hasErrors('password')}"
+                           th:errors="*{password}">
+                        </p>
                         <br>
                     </div>
 

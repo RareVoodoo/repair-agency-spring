@@ -120,7 +120,9 @@
                                             <td th:text="${req.description}"></td>
                                             <td th:text="${req.repairPriceUsd}"></td>
                                             <td th:text="${req.userComment}"></td>
-                                            <td> <a  th:href="@{/user/userComment/{id}(id=${req.id})}" class="btn btn-success btn-sm text-white">Add Comment</a></td>
+                                            <td> <a  th:href="@{/user/userComment/username={username}(username=${req.username},id=${req.id})}"
+                                                     class="btn btn-success btn-sm text-white"
+                                                     th:text="#{label.user.add.comment}">Add Comment</a></td>
                                         </tr>
                                         </tbody>
                                     </table>

@@ -119,7 +119,7 @@
                                             <td th:text=${req.description}></td>
                                             <td th:text=${req.phoneNumber}></td>
                                             <td>
-                                                <form th:action="@{/master/performRequest/{id}(id=${req.id})}" method="POST" enctype="multipart/form-data">
+                                                <form th:action="@{/master/performRequest/username={username}(username=${req.username},id=${req.id})}" method="POST" enctype="multipart/form-data">
                                                     <div class="form-group">
                                                         <button type="submit" class="btn btn-success btn-sm text-white" th:text="#{label.master.perform}"></button>
                                                     </div>

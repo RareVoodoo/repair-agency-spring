@@ -1,9 +1,9 @@
-package ua.testing.repairagency;
+package ua.testing.repairagency.util;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-import ua.testing.repairagency.dto.UserDTO;
+import ua.testing.repairagency.dto.UserDto;
 import ua.testing.repairagency.service.UserService;
 
 @Component
@@ -16,21 +16,21 @@ public class DataLoader implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        UserDTO userAccount1 = UserDTO.builder()
+        UserDto userAccount1 = UserDto.builder()
                 .nameEn("Ivan Varenychenko")
                 .username("user")
                 .password("pass")
                 .matchingPassword("pass")
                 .build();
 
-        UserDTO adminAccount1 = UserDTO.builder()
+        UserDto adminAccount1 = UserDto.builder()
                 .nameEn("Fedir Rybak")
                 .username("manager")
                 .password("pass")
                 .matchingPassword("pass")
                 .build();
 
-        UserDTO masterAccount1 = UserDTO.builder()
+        UserDto masterAccount1 = UserDto.builder()
                 .nameEn("Serhiy Brylo")
                 .username("master")
                 .password("pass")
@@ -40,8 +40,8 @@ public class DataLoader implements CommandLineRunner {
 
 
         userService.registerNewUserAccount(userAccount1);
-        userService.registerNewUserAccount(adminAccount1,"ROLE_ADMIN");
-        userService.registerNewUserAccount(masterAccount1, "ROLE_MASTER");
+        userService.registerNewUserAccount(adminAccount1,Constants.ADMIN_ROLE);
+        userService.registerNewUserAccount(masterAccount1, Constants.MASTER_ROLE);
 
     }
 }
