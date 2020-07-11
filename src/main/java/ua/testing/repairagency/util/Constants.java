@@ -2,7 +2,9 @@ package ua.testing.repairagency.util;
 
 import java.util.Locale;
 
-public class Constants {
+public final class Constants {
+
+    private Constants(){};
 
     public static final String REQUEST_ATTRIBUTE = "request";
     public static final String USER_ATTRIBUTE = "user";
